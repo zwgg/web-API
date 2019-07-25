@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>微博发布效果</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .weibo {
+            width: 600px;
+            border: 1px solid #ccc;
+
+            margin: 100px auto;
+            padding: 10px;
+
+        }
+
+        .weibo-text {
+            width: 590px;
+            height: 140px;
+            padding: 5px;
+            border: 1px solid #ccc;
+            outline: none;
+            resize: none;
+        }
+
+        .weibo-text:focus {
+            border-color: #f60;
+        }
+
+        .weibo-btn {
+            width: 80px;
+            height: 30px;
+            background-color: #f90;
+            color: #fff;
+            border: 0 none;
+            margin-top: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: 0 none;
+        }
+
+        .weibo-list {
+            padding-top: 10px;
+        }
+
+        .weibo-list li {
+            font-size: 14px;
+            line-height: 30px;
+            border-bottom: 1px dotted #ccc;
+            overflow: hidden;
+        }
+
+        .weibo-list li p {
+            float: left;
+        }
+
+        .weibo-list li span {
+            float: right;
+            cursor: pointer;
+        }
+
+        .weibo-list li input {
+            height: 24px;
+            line-height: 24px;
+            width: 300px;
+            font-size: 14px;
+            border: 0 none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="weibo">
+        <textarea class="weibo-text"></textarea>
+        <input class="weibo-btn" value="发布" type="button">
+        <ul class="weibo-list">
+            <li>
+                <p>快来收了这九款用上就停不下来的应用吧！！</p>
+                <span>删除</span>
+            </li>
+            <li>
+                <p>超级详细的云南大理自助游攻略</p>
+                <span>删除</span>
+            </li>
+            <li>
+                <p>外国最近很火的舞蹈，舒服简单自然，太棒了！</p>
+                <span>删除</span>
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+
+    // 1 获取所有的 删除
+    let delBtns = document.querySelectorAll('span');
+    // 事件委托
+    let ul = document.querySelector('ul');
+    // 其实删除有一部分是动态生成的，如果采用获取元素注册事件的方式，是注册不到的，需要使用 事件委托的方式 来实现
+    // 事件委托： 利用事件的冒泡，当后代元素触发事件，就会执行前代元素的事件处理程序，就在里面判断， 事件目标是否满足条件，满足就执行代码
+    // 事件委托： 1 先找一个已经在结构中的前代元素
+    ul.onclick = function (e) {
+        // 判断点击的是否是span
+        if (e.target.nodeName === 'SPAN') {
+            // 把对应的li移除
+            ul.removeChild(e.target.parentNode);
+        }
+    }
+
+    //  点击可以发布
+    let btn = document.querySelector('.weibo-btn');
+    let text = document.querySelector('.weibo-text');
+    // 注册点击事件
+    btn.onclick = function () {
+        // 获取文本域的内容
+        let content = text.value;
+        // 生成一个新的li
+        let li = document.createElement('li');
+        // 给li生成两个新的子元素
+        li.innerHTML = '<p>' + content + '</p><span>删除</span>';
+        // 把li添加到ul的最前面
+        ul.insertBefore(li, ul.children[0]);
+        // 把文本域清空
+        text.value = '';
+    }
+   
+    // -----------------------------------------------------
+
+
+    // 2获取所有的 删除
+    // let delBtns = document.querySelectorAll('span');
+    // let ul = document.querySelector('ul');
+    // // 事件委托
+    // ul.onclick = function (e) {
+    //     if (e.target.nodeName === 'SPAN') {
+    //         ul.removeChild(e.target.parentNode);
+    //     }
+    // }
+
+    // //  点击发布
+    // let btn = document.querySelector('.weibo-btn');
+    // let text = document.querySelector('.weibo-text');
+    // // 注册点击事件
+    // btn.onclick = function () {
+    //     let content = text.value;
+    //     let li = document.createElement('li');
+    //     li.innerHTML = '<p>' + content + '</p><span>删除</span>';
+    //     ul.insertBefore(li, ul.children[0]);
+    //     text.value = '';
+    // }
+
+
+</script>
+
+</html>

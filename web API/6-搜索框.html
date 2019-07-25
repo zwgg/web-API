@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            position: absolute;
+            top: 100px;
+            left: 300px;
+        }
+
+        input {
+            box-sizing: border-box;
+            width: 300px;
+            height: 56px;
+            background-image: url('./images/search.png');
+            padding: 4px 6px;
+            border: 0 none;
+            outline: 0 none;
+            font-size: 24px;
+        }
+
+        .list {
+            border: 1px solid #ccc;
+            position: absolute;
+            top: 54px;
+            left: 2px;
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <input type="text" id="search">
+        <div class="list" id="list">
+            <img src="./images/mi.png" alt="">
+        </div>
+    </div>
+</body>
+<script>
+    // 获取元素
+    let search = document.getElementById('search');
+    let list = document.getElementById('list');
+    // 给输入框获得焦点事件
+    search.onfocus = function(){
+        // 把下拉显示 - 把类名里面加多一个 show 
+        list.className = 'list show';
+    }
+    // 给输入框输入焦点事件
+    search.onblur = function(){
+        list.className = 'list';
+    }
+</script>
+
+</html>

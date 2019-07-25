@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body {
+          overflow: hidden;
+        }
+        .login-header {
+            width: 100%;
+            text-align: center;
+            height: 30px;
+            font-size: 24px;
+            line-height: 30px;
+        }
+        ul, li, ol, dl, dt, dd, div, p, span, h1, h2, h3, h4, h5, h6, a {
+            padding: 0px;
+            margin: 0px;
+        }
+        .login {
+            width: 512px;
+            position: absolute;
+            border: #ebebeb solid 1px;
+            height: 280px;
+            left: 50%;
+            right: 50%;
+            background: #ffffff;
+            box-shadow: 0px 0px 20px #ddd;
+            z-index: 9999;
+            margin-left: -250px;
+            margin-top: 140px;
+            /*display: none;*/
+        }
+        .login-title {
+            width: 100%;
+            margin: 10px 0px 0px 0px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            font-size: 18px;
+            position: relative;
+            cursor: move;
+            -moz-user-select:none;/*火狐*/
+            -webkit-user-select:none;/*webkit浏览器*/
+            -ms-user-select:none;/*IE10*/
+            -khtml-user-select:none;/*早期浏览器*/
+            user-select:none;
+        }
+        .login-input-content {
+            margin-top: 20px;
+        }
+        .login-button {
+            width: 50%;
+            margin: 30px auto 0px auto;
+            line-height: 40px;
+            font-size: 14px;
+            border: #ebebeb 1px solid;
+            text-align: center;
+        }
+        .login-bg {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            background: #000000;
+            filter: alpha(opacity=30);
+            -moz-opacity: 0.3;
+            -khtml-opacity: 0.3;
+            opacity: 0.3;
+            display: none;
+        }
+        a {
+            text-decoration: none;
+            color: #000000;
+        }
+        .login-button a {
+            display: block;
+        }
+        .login-input input.list-input {
+            float: left;
+            line-height: 35px;
+            height: 35px;
+            width: 350px;
+            border: #ebebeb 1px solid;
+            text-indent: 5px;
+        }
+        .login-input {
+            overflow: hidden;
+            margin: 0px 0px 20px 0px;
+        }
+        .login-input label {
+            float: left;
+            width: 90px;
+            padding-right: 10px;
+            text-align: right;
+            line-height: 35px;
+            height: 35px;
+            font-size: 14px;
+        }
+        .login-title span {
+            position: absolute;
+            font-size: 12px;
+            right: -20px;
+            top: -30px;
+            background: #ffffff;
+            border: #ebebeb solid 1px;
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="login-header"><a id="link" href="javascript:void(0);">点击，弹出登录框</a></div>
+<div id="login" class="login" >
+    <div id="title" class="login-title">登录会员
+        <span><a id="closeBtn" href="javascript:void(0);" class="close-login">关闭</a></span></div>
+    <div class="login-input-content">
+        <div class="login-input">
+            <label>用户名：</label>
+            <input type="text" placeholder="请输入用户名" name="info[username]" id="username" class="list-input">
+        </div>
+        <div class="login-input">
+            <label>登录密码：</label>
+            <input type="password" placeholder="请输入登录密码" name="info[password]" id="password" class="list-input">
+        </div>
+    </div>
+    <div id="loginBtn" class="login-button"><a href="javascript:void(0);" id="login-button-submit">登录会员</a></div>
+</div>
+<div id="bg" class="login-bg" ></div>
+
+</body>
+<script>
+/*
+  效果
+    1 当鼠标在title上面按下，
+    2 移动鼠标，登录框会跟着鼠标移动
+    3 当鼠标松开，登录框就不随着鼠标移动了
+
+  步骤：
+    1.获取登录框的顶部，给title注册鼠标按下事件
+    2.给title注册鼠标的移动事件
+      获取鼠标的位置，经过计算，设置给登录框
+    3.注册鼠标的松开事件，让登录框就不随着鼠标移动了
+*/
+
+// 获取元素
+let title = document.querySelector('#title');
+let login = document.querySelector('#login');
+// 在这里使用一个变量，标记登录框是否随着鼠标的移动而移动
+let isDrag = false;// 表示当前没有拖动
+// 声明两个变量保存 鼠标按下的位置距离 登录框的左上角的距离
+let tempX = 0;
+let tempY = 0;
+// 给title注册鼠标的按下
+title.onmousedown = function(e){
+  // 表示可以拖动了
+  isDrag = true;
+  // 记录在按下的瞬间，鼠标距离登录框的左上角有多远
+  // 计算的方式： 鼠标的坐标 - 登录框的左上角距离页面左上角的距离
+  tempX = e.pageX - login.offsetLeft;
+  tempY = e.pageY - login.offsetTop;
+}
+// 给title注册鼠标的移动
+// 也是希望鼠标在任何位置拖动都可以移动登录框 - 给document注册
+// 别的地方也可能有docuemnt的鼠标移动事件
+document.addEventListener('mousemove',function (e){
+  // 必须是按下之后才可以动
+  if(isDrag){
+    // 获取鼠标的位置，设置给登录框
+    let x = e.pageX;
+    let y = e.pageY;
+    // 经过一定的计算
+    x = x - tempX + 250;
+    y = y - tempY - 140;
+    // 设置给登录框
+    login.style.left = x + 'px';
+    login.style.top = y + 'px';
+  }
+});
+// title.onmousemove = 
+
+// 在鼠标松开的时候，标记就变成了不能动
+// title.onmouseup = function(){
+  // 在页面的任何位置松开都应该不能拖动了
+  // 可能会在别的地方也有document的鼠标松开事件，希望两边都可以 - 使用可以注册多次的的方式来实现
+  document.addEventListener('mouseup',function(){
+    isDrag = false;
+  });
+// document.onmouseup = function(){
+//   isDrag = false;
+// }
+
+</script>
+</html>

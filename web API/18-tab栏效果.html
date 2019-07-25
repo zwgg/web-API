@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		ul {
+			list-style: none;
+		}
+
+		.wrapper {
+			width: 1000px;
+			height: 475px;
+			margin: 0 auto;
+			margin-top: 100px;
+		}
+
+		.tab {
+			border: 1px solid #ddd;
+			border-bottom: 0;
+			height: 36px;
+			width: 320px;
+		}
+
+		.tab li {
+			position: relative;
+			float: left;
+			width: 80px;
+			height: 34px;
+			line-height: 34px;
+			text-align: center;
+			cursor: pointer;
+			border-top: 4px solid #fff;
+		}
+
+		.tab span {
+			position: absolute;
+			right: 0;
+			top: 10px;
+			background: #ddd;
+			width: 1px;
+			height: 14px;
+			overflow: hidden;
+		}
+
+		.products {
+			width: 1002px;
+			border: 1px solid #ddd;
+			height: 476px;
+		}
+
+		.products .main {
+			float: left;
+			display: none;
+		}
+
+		.products .main.selected {
+			display: block;
+		}
+
+		.tab li.active {
+			border-color: red;
+			border-bottom: 0;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper">
+		<ul class="tab">
+			<li class="tab-item active">国际大牌<span>◆</span></li>
+			<li class="tab-item">国妆名牌<span>◆</span></li>
+			<li class="tab-item">清洁用品<span>◆</span></li>
+			<li class="tab-item">男士精品</li>
+		</ul>
+		<div class="products">
+			<div class="main selected">
+				<a href="###"><img src="images/guojidapai.jpg" alt="" /></a>
+			</div>
+			<div class="main">
+				<a href="###"><img src="images/guozhuangmingpin.jpg" alt="" /></a>
+			</div>
+			<div class="main">
+				<a href="###"><img src="images/qingjieyongpin.jpg" alt="" /></a>
+			</div>
+			<div class="main">
+				<a href="###"><img src="images/nanshijingpin.jpg" alt="" /></a>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script>
+	/*
+	  tab栏切换
+	  效果：
+		1.鼠标移入 每个 分类
+		2.把自己的分类变得和其他分类不一样
+		3.找到和当前分类对应的商品，显示出来，同时把其他的隐藏
+	  步骤：
+		1.获取元素（每个分类，每个商品列表）
+		2.给每个分类注册鼠标悬停事件 - mouse over
+		3.就在事件处理程序里面
+		  3.1 把分类处理 - 把自己变得和别人不一样
+		  3.2 找到和我对应的商品列表，显示，把其他的商品隐藏
+	*/
+	// 获取元素
+	// let items = document.getElementsByClassName('tab-item');
+	let items = document.querySelectorAll('.tab-item'); // NodeList
+	let goods = document.querySelectorAll('.main'); // NodeList
+	// 给每个分类注册鼠标的移入事件
+	// HTMLColleciton 这种伪数组，没有forEach方法
+	// 但是NodeList 这种伪数组,不一样，是有forEach方法的
+	items.forEach((e, i) => {
+		// 注册事件
+		e.onmouseover = function () {
+			// 排他 - 先把所有变得一样，再把自己变得和别人不一样
+			// 先把所有的分类，变得普通
+			items.forEach((e) => {
+				e.classList.remove('active');
+			});
+			// 再把自己变得和别人不一样 - 是通过添加一个active的class进行变身的
+			this.classList.add('active');
+			// 找到对应的 商品， 把对应的商品显现，把其他的隐藏 - 商品和分类是索引对应的
+			// 根据分类的索引，得到对应的商品就可以了
+			// 获取分类的索引 就是外层遍历的时候的i
+			// console.log(i);
+			// 把其他的都隐藏掉
+			goods.forEach(e => {
+				e.classList.remove('selected');
+			});
+			// 获取对应的商品显示
+			goods[i].classList.add('selected');
+		}
+	});
+</script>
+
+</html>

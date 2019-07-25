@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .box {
+            width: 730px;
+            height: 454px;
+            padding: 8px;
+            border: 1px solid green;
+            margin: 100px auto;
+        }
+
+        .inner {
+            position: relative;
+            overflow: hidden;
+            height: 454px;
+        }
+
+        #imglist {
+            width: 700%;
+            position: absolute;
+            left: 0;
+            transition: left 300ms linear;
+        }
+
+        li {
+            float: left;
+        }
+
+        .list {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            margin-left: -85px;
+        }
+
+        .list i {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #fff;
+            color: #333;
+            float: left;
+            font-style: normal;
+            line-height: 20px;
+            font-size: 14px;
+            text-align: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .list i:last-child {
+            margin-right: 0;
+        }
+
+        .list i.current {
+            background-color: skyblue;
+            color: #fff;
+        }
+
+        .arrow {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            margin-top: -30px;
+        }
+
+        .arrow-left,
+        .arrow-right {
+            width: 30px;
+            height: 60px;
+            position: absolute;
+            font: 20px/60px "consolas";
+            color: #fff;
+            background-color: rgba(0, 0, 0, .3);
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .arrow-right {
+            right: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box" id="box">
+        <div class="inner" id="inner">
+            <ul id="imglist">
+                <li><a href="#"><img src="images/1.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/2.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/3.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/4.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/5.jpg" alt=""></a></li>
+                <li><a href="#"><img src="images/6.jpg" alt=""></a></li>
+            </ul>
+            <div class="list">
+                <i class="current">1</i>
+                <i>2</i>
+                <i>3</i>
+                <i>4</i>
+                <i>5</i>
+                <i>6</i>
+            </div>
+            <div class="arrow">
+                <span class="arrow-left">&lt;</span>
+                <span class="arrow-right">&gt;</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script>
+    /*
+      轮播图拆分成几个效果
+        1.序号轮播
+        2.左右按钮轮播
+        3.自动轮播
+        4.鼠标移入，暂停，鼠标离开，恢复自动轮播
+    */
+
+    // 序号轮播
+    // 鼠标移入对应的序号，轮播图就切换到对应的图片
+    /*
+      步骤：
+        1.获取元素
+        2.注册鼠标移入事件
+        3.计算出ul的位置，设置给ul
+    */
+    // 图片的宽度要在静态资源加载完毕之后获取
+    window.onload = function () {
+        let circles = document.querySelectorAll('.list>i');
+        let ul = document.querySelector('#imglist');
+        let img = document.querySelector('#imglist img');
+        // 序号轮播
+        circles.forEach((e, i) => {
+            e.onmouseover = function () {
+                // 这个函数是一个 事件处理程序 ，里面的this 指向 事件源
+                // 计算ul的位置 = 索引 * 图片宽度 * -1
+                let target = i * img.offsetWidth * -1;
+                // 设置给ul
+                ul.style.left = target + 'px';
+                // 处理序号的样式 - 排他
+                circles.forEach(e => {
+                    e.classList.remove('current');
+                });
+                this.classList.add('current');
+
+                // 需要把点击和自动轮播的索引，和当前移入的这个圆点同步
+                currentImageIndex = i;
+            }
+        });
+
+        // 试下左右按钮轮播
+        /*
+          效果：
+            1.点击左按钮，图片，从n张切换到n-1张
+            2.点击右按钮，图片，从n张切换到n+1张
+          步骤：
+            1.获取按钮
+            2.注册点击事件
+            3.先声明一个表示当前都是第几张的变量，点击的时候，让变量++，计算出ul应该在的位置，再次设置给ul
+        */
+        // 获取右边按钮
+        let btnRight = document.querySelector('.arrow-right');
+        // 声明一个变量，表示当前的图片是第几张,一开始给的初始值是0，默认一开始就是第一张
+        let currentImageIndex = 0;
+        // 点击事件
+        btnRight.onclick = function () {
+            // 如果是最后 一张  就直接切换到底0张
+            // 如果索引到达最后一张 ，最后一张的索引是ul的子元素的长度 - 1
+            if (currentImageIndex === ul.children.length - 1) {
+                currentImageIndex = 0;
+            } else {
+                // 需要让索引++
+                currentImageIndex++;
+            }
+            // 计算出ul该在的位置
+            let target = currentImageIndex * img.offsetWidth * -1;
+            // 设置给ul
+            ul.style.left = target + 'px';
+            // 处理原点
+            circles.forEach(e => {
+                e.classList.remove('current');
+            });
+            circles[currentImageIndex].classList.add('current');
+        }
+
+        // 左边按钮同理
+        let btnLeft = document.querySelector('.arrow-left');
+        btnLeft.onclick = function () {
+            //如果是第一张，就点击左边，应该切换到最后一张
+            if (currentImageIndex === 0) {
+                currentImageIndex = ul.children.length - 1;
+            } else {
+                // 让索引减少
+                currentImageIndex--;
+            }
+
+            // 算出ul的位置设置给他
+            let target = currentImageIndex * img.offsetWidth * -1;
+            ul.style.left = target + 'px';
+            // 处理原点
+            circles.forEach(e => {
+                e.classList.remove('current');
+            });
+            circles[currentImageIndex].classList.add('current');
+        }
+
+        // 自动轮播的实现 - 其实自动轮播就是隔一段时间，就点击一次右边的按钮
+        /*
+          每隔一段时间就去做一件事情 - setInterval()
+          思路： 让一个永久的定时器，每隔一段时间，调用一下右边按钮的逻辑
+        */
+        let timerId = setInterval(() => {
+            btnRight.onclick();
+        }, 1500);
+
+        // 实现鼠标移入移出，暂停和恢复自动轮播
+        // 鼠标移入把定时器清除(停止)
+        // 给box注册
+        let box = document.querySelector('#box');
+        box.onmouseover = () => {
+            clearInterval(timerId);
+        }
+        // 鼠标移出，继续开启定时器
+        // mouse - 鼠标
+        // out - 出去
+        box.onmouseout = () => {
+            timerId = setInterval(() => {
+                btnRight.onclick();
+            }, 1500);
+        }
+    }
+
+
+</script>
+
+</html>

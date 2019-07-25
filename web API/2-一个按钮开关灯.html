@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="button" value="丑八怪快关灯" id='btn'>
+</body>
+<script>
+    // 使用一个按钮实现开灯和关灯
+    // 判断文字是开灯还是关灯，如果文字是关灯，就把body变黑，否则就把body变白
+    // 步骤 ：1.获取按钮 2.注册点击事件 3.在事件处理程序里面，判断文字，如果是关灯，就把body变黑，把按钮的文字变成 开灯
+    var bth = document.getElementById('btn');
+    btn.onclick = function () {
+        if (btn.value === '丑八怪快关灯') {
+            //  因为在一个页面中，body永远只有一个，所以DOM里面帮我们封装了一个 document.bady 这个属性可以快速的获取body
+            document.body.style.backgroundColor = '#000';
+            // 把按钮的value属性，变成开灯
+            btn.value = '靓女快开开灯，让大爷我好生看看'
+        } else{
+             document.body.style.backgroundColor = '#fff'
+             btn.value = '丑八怪快关灯'
+        }
+    }
+</script>
+
+</html>

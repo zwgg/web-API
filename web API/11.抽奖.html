@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            width: 660px;
+            height: 660px;
+            background-image: url('./images/panze.png');
+            margin: 100px auto;
+            position: relative;
+        }
+
+        .zhizhen {
+            width: 338px;
+            height: 338px;
+            background-image: url('./images/zhizhen.png');
+            background-repeat: no-repeat;
+            background-position: center top;
+            position: absolute;
+            top: 129px;
+            left: 152px;
+            transition: transform 500ms linear;
+        }
+
+        .begin {
+            width: 138px;
+            height: 138px;
+            position: absolute;
+            top: 227px;
+            left: 252px;
+            border-radius: 50%;
+            /* background-color: rgba(255,0,0,.5); */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="zhizhen"></div>
+        <div class="begin"></div>
+    </div>
+</body>
+
+<script>
+    /*
+       1.点击按钮，可以让指针进行旋转
+       2.只能点一次
+         思路： 判断是否点过，如果点过，就不让事件处理程序里面的逻辑再执行
+     */
+    //1 获取按钮和指针
+    (function () {
+        let begin = document.querySelector('.begin');
+        let zhizhen = document.querySelector('.zhizhen');
+        // 给按钮注册点击事件
+        begin.onclick = function () {
+            // 只能抽一次奖，抽了一次之后，就把事件解绑掉
+            begin.onclick = null;
+            // 随机一个角度，让指针旋转 - transform ： rotate(随机角度);
+            let angle = Math.random() * 360;
+            // 设置给指针
+            zhizhen.style.transform = 'rotate(' + angle + 'deg)';
+
+        }
+    })();
+
+
+    // // 2获取按钮和指针
+
+    (function (){
+        let begin = document.querySelector('.begin');
+        let zhizhen = document.querySelector('.zhizhen');
+        // 给按钮注册点击事件
+        begin.onclick = function () {
+            // 只能抽一次奖，抽了一次之后，就把事件解绑掉
+            begin.onclick = null;
+            // 随机一个角度，让指针旋转 - transform ： rotate(随机角度);
+            let angle = Math.random() * 360;
+            // 设置给指针
+            zhizhen.style.transform = 'rotate('+ angle +' deg)';
+
+        }
+    })();
+
+
+    // //3 获取按钮和指针
+    // (function () {
+    //     let begin = document.querySelector('.begin');
+    //     let zhizhen = document.querySelector('.zhizhen');
+    //     // 给按钮注册点击事件
+    //     begin.onclick = function () {
+    //         // 只能抽一次奖，抽了一次之后，就把事件解绑掉
+    //         begin.onclick = null;
+    //         // 随机一个角度，让指针旋转 - transform ： rotate(随机角度);
+    //         let angle = Math.random() * 360;
+    //         // 设置给指针
+    //         zhizhen.style.transform = 'rotate(' + angle + 'deg)';
+
+    //     }
+    // })();
+</script>
+
+</html>

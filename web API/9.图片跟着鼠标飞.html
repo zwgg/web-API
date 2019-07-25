@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        img {
+            position: absolute;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="./images/tianshi.gif" alt="">
+</body>
+<script>
+   /*
+  图片跟着鼠标飞的效果
+    鼠标移动
+    得到鼠标的位置
+    让图片，定位到鼠标的位置
+
+  步骤：
+    1注册鼠标移动事件 - 给document注册 - 希望在页面中任何位置都可以触发的事件，给document注册    
+    2获取鼠标的位置
+    3给图片设置top和left
+*/
+  let img = document.querySelector('img');
+  document.onmousemove = function(e){
+    //   得到鼠标的位置
+    let x = e.clientX;
+    let y = e.clientY;
+    img.style.top = y + 'px';   //设置行内样式的时候，如果是有单位的，需要把单位加上
+    img.style.left = x + 'px';
+  }
+</script>
+</html>
